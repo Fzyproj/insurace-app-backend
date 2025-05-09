@@ -1,6 +1,8 @@
 from flask import Flask, jsonify, request
 from flask_sqlalchemy import SQLAlchemy
 
+from src.response.common_response import ResponseResult
+
 app = Flask(__name__)
 
 # 配置 SQLite 数据库地址
