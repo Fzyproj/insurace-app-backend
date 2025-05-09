@@ -1,7 +1,7 @@
 from flask import Flask, jsonify, request
 from flask_sqlalchemy import SQLAlchemy
 
-from src.response.common_response import ResponseResult
+from response.common_response import ResponseResult
 
 app = Flask(__name__)
 
