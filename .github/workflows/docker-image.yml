@@ -7,20 +7,22 @@ on:
     branches: [ "main" ]
 
 jobs:
-  build-and-push:
+  代码检查:
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v4
-
-    # 登录 DockerHub
+	
+  登录DockerHub:
+    steps:
     - name: Log in to Docker Hub
       uses: docker/login-action@v3
       with:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
-
-    # 构建并推送镜像
+		
+  构建推送镜像:
+    steps:
     - name: Build and push Docker image
       uses: docker/build-push-action@v5
       with:
