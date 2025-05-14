@@ -69,9 +69,11 @@ def get_all_users():
     return jsonify(ResponseResult(data=user_list).to_dict())
 
 
-@app.route('/v1/say', methods=['GET'])
-def run_ocr_server():
-    return jsonify({'message': 'Hello Flask!'})
+# 验证webhook
+@app.route('/v1/webhook', methods=['POST'])
+def test_webhook():
+    req_body = request.json
+    return jsonify({'data': req_body})
 
 
 if __name__ == '__main__':
