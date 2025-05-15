@@ -34,7 +34,25 @@ jobs:
         with:
           context: .
           push: true
-          overwrite-tags: true  # 强制覆盖同名标签
           tags: ${{ secrets.HARBOR_REGISTRY }}/library/insure-app-backend:latest
       - name: Echo build image info
         run: echo "library/insure-app-backend:latest"
+
+  deploy_remote:
+    runs-on: ubuntu-latest
+    needs: build_and_push
+    steps:
+      - name: SSH to remote server and deploy
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.REMOTE_HOST }}
+          username: ${{ secrets.REMOTE_USER }}
+          password: ${{ secrets.REMOTE_PASSWORD }}
+          port: 22
+          script: |
+            echo "✅ 已登录服务器，准备切换目录"
+            cd /app/InsuranceApp
+            echo "📦 当前目录：$(pwd)"
+            echo "♻️ 开始拉取镜像并重建容器"
+            docker-compose up -d --pull always
+            echo "🎉 部署完成"
