@@ -1,3 +1,5 @@
+import logging
+
 from flask import Flask, jsonify, request
 from flask_sqlalchemy import SQLAlchemy
 
@@ -73,6 +75,7 @@ def get_all_users():
 @app.route('/v1/webhook', methods=['POST'])
 def test_webhook():
     req_body = request.json
+    print(req_body)
     return jsonify({'data': req_body})
 
 
