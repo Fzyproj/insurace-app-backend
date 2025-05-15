@@ -34,4 +34,5 @@ jobs:
         with:
           context: .
           push: true
+          overwrite-tags: true  # 强制覆盖同名标签
           tags: ${{ secrets.HARBOR_REGISTRY }}/library/insure-app-backend:latest
