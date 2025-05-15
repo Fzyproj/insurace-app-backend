@@ -36,3 +36,5 @@ jobs:
           push: true
           overwrite-tags: true  # 强制覆盖同名标签
           tags: ${{ secrets.HARBOR_REGISTRY }}/library/insure-app-backend:latest
+      - name: Echo build image info
+        run: echo "library/insure-app-backend:latest"
