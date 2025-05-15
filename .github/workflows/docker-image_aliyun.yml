@@ -2,10 +2,10 @@ name: 阿里云40.184 Harbor镜像构建
 
 on:
   workflow_dispatch:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+#  push:
+#    branches: [ "main" ] # 推送代码到 main 分支时触发
+#  pull_request:
+#    branches: [ "main" ] # 向 main 分支提 PR 时触发
 
 jobs:
 
