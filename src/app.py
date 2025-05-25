@@ -43,13 +43,14 @@ def create_tables():
 @app.route('/v1/add_user', methods=['POST'])
 def add_user():
     req_body = request.json
-    insert_user = UserInfo(user_name=req_body['user_name'],
-                           nick_name=req_body['nick_name'],
-                           phone_number=req_body['phone_number'],
-                           company_name=req_body['company_name'],
-                           company_phone=req_body['company_phone'],
-                           img_ext=req_body['img_ext'],
-                           )
+    insert_user = UserInfo(
+        user_name=req_body.get('user_name', ''),  # 如果不存在，赋空字符串
+        nick_name=req_body.get('nick_name', ''),
+        phone_number=req_body.get('phone_number', ''),
+        company_name=req_body.get('company_name', ''),
+        company_phone=req_body.get('company_phone', ''),
+        img_ext=req_body.get('img_ext', ''),
+    )
     db.session.add(insert_user)
     db.session.commit()
     return jsonify(ResponseResult().to_dict())
