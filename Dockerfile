@@ -8,7 +8,7 @@ WORKDIR /app
 COPY . .
 
 # 复制依赖列表并安装
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install -r requirements.txt
 
 # 暴露 Flask 默认端口（通常为 5000）
 EXPOSE 5000
