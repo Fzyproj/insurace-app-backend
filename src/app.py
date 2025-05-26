@@ -1,5 +1,3 @@
-import logging
-
 from flask import Flask, jsonify, request
 from flask_sqlalchemy import SQLAlchemy
 
@@ -32,6 +30,17 @@ class UserInfo(db.Model):
     # 保险补充信息截图（外链）
     img_ext = db.Column(db.String(128), nullable=False)
 
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'user_name': self.user_name,
+            'nick_name': self.nick_name,
+            'phone_number': self.phone_number,
+            'company_name': self.company_name,
+            'company_phone': self.company_phone,
+            'img_ext': self.img_ext
+        }
+
 
 # 创建表，在应用启动时调用函数
 @app.before_request
@@ -57,7 +66,7 @@ def add_user():
 
 
 # 查询所有用户
-@app.route('/users')
+@app.route('/all/users')
 def get_all_users():
     user_infos = UserInfo.query.all()
     user_list = [
@@ -71,14 +80,16 @@ def get_all_users():
          } for user in user_infos]
     return jsonify(ResponseResult(data=user_list).to_dict())
 
-
-# 验证webhook
-@app.route('/v1/webhook', methods=['POST'])
-def test_webhook():
-    req_body = request.json
-    print(req_body)
-    return jsonify({'data': req_body})
-
+# 根据用户名和手机号查询用户投保信息
+@app.route('/search')
+def search_users():
+    user_name = request.args.get('user_name')
+    phone_number = request.args.get('phone_number')
+    if not user_name or not phone_number:
+        pass
+    filtered_users = UserInfo.query.filter_by(user_name=user_name, phone_number=phone_number).all()
+    user_list = [user.to_dict() for user in filtered_users]
+    return jsonify(ResponseResult(data=user_list).to_dict())
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
